@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001
+      author: Aravindh
+      comment: Create enhanced brand table with additional fields using SQL
+      changes:
+        - sqlFile:
+            path: db/changelog/sql/001-create-brand-table.sql
+            stripComments: true
