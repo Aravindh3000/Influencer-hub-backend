@@ -30,9 +30,17 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/influencer_db
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: password
-      SPRING_PROFILES_ACTIVE: docker
+      # Enable live reload
+      ENABLE_LIVE_RELOAD: true
     ports:
       - "8080:8080"
+    volumes:
+      # Mount source code for live reload
+      - ./src:/app/src
+      - ./pom.xml:/app/pom.xml
+      - ./target:/app/target
+      - ./.mvn:/app/.mvn
+      - ./mvnw:/app/mvnw
     networks:
       - app-network
     healthcheck:

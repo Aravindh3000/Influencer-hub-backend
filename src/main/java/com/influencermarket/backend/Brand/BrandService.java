@@ -1,7 +1,7 @@
-package com.influencermarket.backend.service;
+package com.influencermarket.backend.Brand;
 
-import com.influencermarket.backend.entity.Brand;
-import com.influencermarket.backend.repository.BrandRepository;
+import com.influencermarket.backend.Brand.Brand;
+import com.influencermarket.backend.Brand.BrandRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

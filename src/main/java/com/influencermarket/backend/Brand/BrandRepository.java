@@ -1,6 +1,6 @@
-package com.influencermarket.backend.repository;
+package com.influencermarket.backend.Brand;
 
-import com.influencermarket.backend.entity.Brand;
+import com.influencermarket.backend.Brand.Brand;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -1,30 +1,29 @@
-# Multi-stage build for Spring Boot application
-FROM maven:3.9.6-eclipse-temurin-21 AS build
+FROM eclipse-temurin:21-jdk
+
+# Install inotify-tools for file system monitoring
+RUN apt-get update -y \
+    && apt-get install -y --no-install-recommends inotify-tools curl \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Copy pom.xml and download dependencies
-COPY pom.xml .
-RUN mvn dependency:go-offline -B
+# Copy Maven wrapper and pom.xml
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
 
-# Copy source code and build
-COPY src ./src
-RUN mvn clean package -DskipTests
+# Download dependencies
+RUN ./mvnw dependency:go-offline
 
-# Runtime stage
-FROM eclipse-temurin:21-jre-alpine
+# Copy startup script
+COPY start.sh .
+RUN chmod +x start.sh
 
-WORKDIR /app
-
-# Copy the built jar from build stage
-COPY --from=build /app/target/*.jar app.jar
-
-# Expose port
-EXPOSE 8080
+# Expose ports
+EXPOSE 8080 35729
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD curl -f http://localhost:8080/actuator/health || exit 1
 
 # Run the application
-ENTRYPOINT ["java", "-jar", "app.jar"] 
+CMD ["sh", "start.sh"] 

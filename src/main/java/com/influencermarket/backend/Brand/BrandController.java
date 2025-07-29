@@ -1,7 +1,7 @@
-package com.influencermarket.backend.controller;
+package com.influencermarket.backend.Brand;
 
-import com.influencermarket.backend.entity.Brand;
-import com.influencermarket.backend.service.BrandService;
+import com.influencermarket.backend.Brand.Brand;
+import com.influencermarket.backend.Brand.BrandService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -12,6 +12,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 import java.util.List;
 import java.util.UUID;
@@ -45,6 +49,8 @@ public class BrandController {
     })
     public ResponseEntity<List<Brand>> searchBrandsByName(
             @Parameter(description = "Brand name to search for", required = true) 
+            @NotBlank(message = "Search name cannot be blank")
+            @Size(min = 1, max = 100, message = "Search name must be between 1 and 100 characters")
             @RequestParam String name) {
         return ResponseEntity.ok(brandService.searchBrandsByName(name));
     }
@@ -115,7 +121,7 @@ public class BrandController {
     })
     public ResponseEntity<Brand> createBrand(
             @Parameter(description = "Brand object to create", required = true) 
-            @RequestBody Brand brand) {
+            @Valid @RequestBody Brand brand) {
         try {
             return ResponseEntity.ok(brandService.createBrand(brand));
         } catch (RuntimeException e) {
@@ -135,7 +141,7 @@ public class BrandController {
             @Parameter(description = "Brand UUID", required = true) 
             @PathVariable UUID id,
             @Parameter(description = "Updated brand data", required = true) 
-            @RequestBody Brand brandDetails) {
+            @Valid @RequestBody Brand brandDetails) {
         try {
             return ResponseEntity.ok(brandService.updateBrand(id, brandDetails));
         } catch (RuntimeException e) {
