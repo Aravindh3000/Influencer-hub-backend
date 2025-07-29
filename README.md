@@ -45,17 +45,14 @@ docker-compose logs -f backend
 
 ```bash
 
-# 1. Start only PostgreSQL
-docker-compose up db -d
+# 1. Start all services in background (Build on POM/config/env file changes)
+sudo docker-compose up -d
 
-# 2. Apply database migrations
+# 2. Apply database migrations while docker is up
 ./mvnw liquibase:update
 
-# 3. Run the application
+# 3. To run the application
 ./mvnw spring-boot:run
-
-# Start all services in background
-sudo docker-compose up -d
 
 # Stop and remove containers, networks
 sudo docker-compose down
@@ -87,6 +84,13 @@ DELETE /api/brands/{id}     # Delete brand
 ```http
 GET /health                 # Application health status
 GET /actuator/health        # Detailed health information
+```
+
+### API Documentation
+```http
+GET /swagger-ui.html        # Swagger UI interface
+GET /api-docs               # OpenAPI specification
+GET /v3/api-docs            # OpenAPI v3 specification
 ```
 
 ## 🗄️ Database Management

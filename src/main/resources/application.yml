@@ -47,3 +47,21 @@ logging:
     org.hibernate.type.descriptor.sql.BasicBinder: ${SHOW_SQL:false}
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+
+# Swagger/OpenAPI configuration
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+    doc-expansion: none
+  # Scan all packages under backend for controllers
+  packages-to-scan: com.influencermarket.backend
+  # Only include classes with @RestController annotation
+  paths-to-match: /api/**
+
+# Environment variables for OpenAPI
+STAGE: ${STAGE:1.0.0}
+BASE_URL: ${BASE_URL:http://localhost:8080}
